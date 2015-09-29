@@ -8,32 +8,13 @@ class Todo extends CI_Controller {
 		parent::__construct();
 		//$this->template->set('title', 'Todo');
 		$this->load->model('todo_model', 'todos');
-		
-		// Debug
-		if($this->config->item('debug') === TRUE) {
-			$this->output->enable_profiler(TRUE);
-			error_reporting('E_ALL');
-		} else {
-			$this->output->enable_profiler(FALSE);
-			error_reporting(E_ERROR);
-		}
-		
+			
+		//$this->output->enable_profiler(TRUE);
 	}
 	
 	// Index // page d'accueil
 	public function index()	{
-		/*
-		// Afficher les todos de l'utilisateur connecté ou ceux par défaut
-		// Cette fonctionnalité sera ajoutée dès que j'aurrais un système d'Authentification valable sous Codeigniter
-        //if (Auth::check()) {
-        //    $todos = Todo::where('user_id', '=', Auth::user()->id)->get();
-		//	$data['todos'] = $this->todos->get('user_id = Auth:user_id');
-        //} else {
-        //    $todos = Todo::where('user_id', '=', 0)->get();
-		//	$data['todos'] = $this->todos->get('user_id = 0');
-        //}
-		*/
-		$data['todos'] = $this->todos->get('user_id = 0');
+		$data['todos'] = $this->todos->get('');
 	    $this->template->view('todo/index',$data);
 	}
 	
@@ -48,23 +29,15 @@ class Todo extends CI_Controller {
             $d['result'] = 0;
             $d['message'] = "La tâche ne peut pas être vide.";
        } else {
-       	 	/*
-			// Cette fonctionnalité sera ajoutée dès que j'aurrais un système d'Authentification valable sous Codeigniter
-            if (Auth::check()) {
-                $todo->user_id = Auth::user()->id;
-            } else {
-                $todo->user_id = 0;
-            }
-			*/
 			$echappe = array('text' => $text);
-            $noechappe=array('user_id'=>0,'status'=>1,'created'=>'NOW()');
+            $noechappe=array('status'=>0,'created'=>'NOW()');
 			$insert = $this->todos->insert($echappe,$noechappe);
 			if($insert) {
 				$d['result'] =  1;
 	            $d['message'] = "La tâche a été ajoutée.";
 				// Pour le refresh
 	            $d['url'] = "todo/ajax_refresh";
-	            $d['data'] = $insert;
+	            $d['data'] = $insert; // Car la fonction insert de ma classe MY_Model renvoi l'id du dernier enregistrement
 	            $d['div'] = "#todos";
 			} else {
                 $d['result'] =  0;
@@ -77,7 +50,7 @@ class Todo extends CI_Controller {
 			
 	// Refresh
 	// J'ai fais le choix de chercher l'enregistrement ajouté pour l'afficher via un partial à la suite des enregistrements déjà affichés.
-	// Il aurrait été plus simple et plus rapide (mais moins joli) de rafraichir l'index los d'un ajout réussi. 
+	// Il aurrait été plus simple et plus rapide (mais moins joli) de rafraichir l'index lors d'un ajout réussi. 
 	public function ajax_refresh() {
 		$id = intval($this->input->post('value'));
 		$data['e'] = $this->todos->get($id);

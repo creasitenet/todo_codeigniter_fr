@@ -20,11 +20,12 @@ class MY_Model extends CI_Model {
 		return (bool) $this->db->where($where)
 	                           ->delete($this->table);
 	}
-
+	
 	// Get 
-	public function get($where = array(), $nb = null, $debut = null, $select = '*') 
+	public function get($where = array(),$nb = null, $debut = null, $select = '*') 
 	{
 		if(is_integer($where)) { $where = array('id' => $where); }
+		if($where=='') { $where = array('1' => '1'); }
 		$req = $this->db->select($select)
 	    	            ->from($this->table)
 	        	        ->where($where)

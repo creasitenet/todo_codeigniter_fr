@@ -49,19 +49,19 @@ TOGGLE SWITCH
     content: "ON";
     padding-left: 10px;
     background-color: #8CC152; 
-	color: #FFFFFF;
+	color: #FFF;
 }
 .onoffswitch-inner:after {
     content: "OFF";
     padding-right: 10px;
     background-color: #E9573F; 
-	color: #fff;
+	color: #FFF;
     text-align: right;
 }
 .onoffswitch-switch {
     width: 20px; 
 	height: 20px;
-    background: #FFFFFF;
+    background: #CCC;
     position: absolute; 
 	top: 0; 
 	bottom: 0; 

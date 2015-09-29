@@ -17,8 +17,8 @@
 
                         <td>
                         <div class="date">
-                        	<?php echo date('d-m-Y', strtotime($e->created)); ?>
-	                        <small><span><?php echo date('H:i:s', strtotime($e->created)); ?></span></small>
+                        	<?php echo date('d-m-Y', strtotime($e->created)); ?><br />
+	                        <small><?php echo date('H:i:s', strtotime($e->created)); ?></small>
                         </div>
                         </td>
                         
